@@ -9,14 +9,22 @@ player1.play_chord('C')
 print(player1.construct_chord('C'))
 
 C_major = player1.construct_chord('C')
-bpm = 120
-duration = 2.0
-measure = stream.Measure()
-measure.append(C_major)
-measure.insert(0, instrument.Piano())
-measure.insert(0, tempo.MetronomeMark(number=bpm))
-measure.insert(0, note.Rest(quarterLength=duration))
-stream_obj = strem.Stream()
-stream.obj.append(measure)
+
+print(C_major)
+#chord_pitches = [pitch.Pitch(note_number) for note_number in C_major]
+chord_pitches = C_major
+chord = chord.Chord(chord_pitches)
+print(type(chord_pitches))
+chord.duration = duration.Duration(1)
+
+stream_obj = stream.Stream()
+
+#measureにアペンドする方法とstreamに直接アペンドする方法がある
+#コード進行だけならmeasure入らなそう
+#measure_obj = stream.Measure()
+#measure_obj.append(chord)
+
+#stream_obj.append(measure_obj)
+stream_obj.append(chord)
 
 stream_obj.show('midi')
