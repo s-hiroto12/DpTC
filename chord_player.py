@@ -15,14 +15,35 @@ class Chord_player:
             'B':71,
         }
 
-    def play_chord(self, chord_progression):
+        piano = instrument.Piano()
+        guitar = instrument.Guitar()
+        violin = instrument.Violin()
+        self.instrument_list = {
+            'Piano': piano, 
+            'Guitar':guitar, 
+            'Violin': violin
+        }
+
+    def play_chord(self, chord_progression, instrument='Piano'):
         """
         play chord progression
         input [str]
         output None
         """
+        part_obj = stream.Part()
+        part_inst = self.instrument_list[instrument]
+        part_obj.insert(0, part_inst)
+        stream_obj = stream.Stream()
         for chord_name in chord_progression:
-            self.chord_to_midi()
+            print(chord_name)
+            chord_pitches = self.construct_chord(chord_name)
+            print(chord_pitches)
+            chord_obj = chord.Chord(chord_pitches)
+            chord_obj.duration = duration.Duration(4.0)
+            part_obj.append(chord_obj)
+            #stream_obj.append(chord_obj)
+        stream_obj.append(part_obj)
+        stream_obj.show('midi')
 
     def find_root_int(self, chord_name):
         """
@@ -72,18 +93,9 @@ class Chord_player:
             chord_constructer.append(root_int+7)
             if '7' in chord_name:
                 if 'M' in chord_name: # M7
-                    return chord_constructer.append(root_int+11)
+                    chord_constructer.append(roo_int+11)
+                    return chord_constructer
                 else: # 7
-                    return chord_constructer.append(root_int+10)
+                    chord_constructer.append(root_int+10)
+                    return chord_constructer
         return chord_constructer
-
-    
-    
-
-    def chord_to_midi(self):
-        """
-        translate chord name into note(music21)
-        input str
-        output music21.Note
-        """
-        return None

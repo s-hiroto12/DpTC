@@ -1,4 +1,3 @@
-
 import glob
 
 def get_lines(filename):
