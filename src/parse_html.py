@@ -76,4 +76,4 @@ def extract_chords():
     return
 
 extract_chords()
-
+aggregate_files('data/chord_progressions', 'data/all_progressins')
