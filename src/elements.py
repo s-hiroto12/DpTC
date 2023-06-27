@@ -83,7 +83,7 @@ class Chord:
         """
         prev_name = self.name
         prev_root_name = self.root.name
-        print('before transposed ', self.root ,self.name)
+        #print('before transposed ', self.root ,self.name)
         #print(prev_name)
         #transpose root
         self.root.transpose(step)
@@ -96,9 +96,9 @@ class Chord:
 
         else:
             self.name = self.root.name + self.name[1:]
-        print('after transposed ', self.root, self.name)
+        #print('after transposed ', self.root, self.name)
         #print(self.name)
-        print()
+        #print()
         return self
 
     def __str__(self):
@@ -111,11 +111,14 @@ class Chord_progression:
     """
     receive {key:chord_progression}
     key and chord_progression are 
-    convert to
+    converted into
     key:Note
-    chord_progressin:[Note]
+    chord_progressin:[Chord]
     """
     def __init__(self, extracted_chord):
+        """
+        extracted_chord:{key:progression[str]}
+        """
         extracted_key = list(extracted_chord.keys())[0]
         self.key = Note(extracted_key)
         self.chord_p = list(map(lambda s:Chord(s), extracted_chord[extracted_key]))
