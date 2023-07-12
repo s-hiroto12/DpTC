@@ -1,3 +1,8 @@
+"""
+define predict funcion
+script for printing result of predictions
+"""
+
 import tensorflow as tf
 from keras.models import load_model
 import numpy as np
@@ -31,16 +36,38 @@ def predict(model, starting_str, len_generated_text=19, max_input_length=3, scal
     encoded_input = encoded_input[:,-max_input_length:]
   return generated_chord
 
-tf.random.set_seed(1)
-
-starting_str=['C', 'F'] #ここを色々変える
-# number of input
-for max_input_length in range(3):
+def gen_result(starting_str, max_input_length=3, scale_factor=1.0):
+  result = []
+  # number of input
+  for max_input_length in range(3):
   # change scale factor on each iterate
-  for scale_factor in range(5):
-    print("max_input_length: {}, scale_factor:{}".format(max_input_length+4, scale_factor*0.5))
-    print(predict(model, starting_str=starting_str,
-                 len_generated_text=10,
-                 max_input_length=max_input_length+2,
-                 scale_factor = scale_factor*0.5))
-    print()
+    for scale_factor in range(5):
+      #print("max_input_length: {}, scale_factor:{}".format(max_input_length+4, scale_factor*0.5))
+      result.append(predict(model, starting_str=starting_str,
+                len_generated_text=4,
+                max_input_length=max_input_length+2,
+                scale_factor = scale_factor*0.5))
+  return result
+
+
+#tf.random.set_seed(1)
+
+
+if __name__ == "__main__":
+  starting_str=['C', 'Am'] #need to receive input
+  max_input_length = 3
+  print(gen_result(starting_str))
+
+"""
+# number of input
+if __name__ == "__main___":
+  for max_input_length in range(3):
+    # change scale factor on each iterate
+    for scale_factor in range(5):
+      print("max_input_length: {}, scale_factor:{}".format(max_input_length+4, scale_factor*0.5))
+      print(predict(model, starting_str=starting_str,
+                  len_generated_text=4,
+                  max_input_length=max_input_length+2,
+                  scale_factor = scale_factor*0.5))
+      print()
+  """
