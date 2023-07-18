@@ -99,7 +99,7 @@ model.compile(
         from_logits=True
     ))
 
-model.fit(dataset, epochs=40)
+model.fit(dataset, epochs=100)
 model.save('model/model.h5')
 with open('instances/ids_from_chord.bin', 'wb') as p:
     pickle.dump(ids_from_chord, p)
