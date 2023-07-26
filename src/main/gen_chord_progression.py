@@ -41,7 +41,7 @@ def gen_result(starting_str, chord_num, max_input_length=3, scale_factor=1.0):
   # number of input
   for max_input_length in range(3):
   # change scale factor on each iterate
-    for scale_factor in range(5):
+    for scale_factor in range(5, 10):
       #print("max_input_length: {}, scale_factor:{}".format(max_input_length+4, scale_factor*0.5))
       result.append(predict(model, starting_str=starting_str,
                 len_generated_text=chord_num,
@@ -56,4 +56,3 @@ def gen_result(starting_str, chord_num, max_input_length=3, scale_factor=1.0):
 if __name__ == "__main__":
   starting_str=['C', 'Am'] #need to receive input
   max_input_length = 3
-  print(gen_result(starting_str, 4))

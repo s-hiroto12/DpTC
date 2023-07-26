@@ -47,7 +47,7 @@ for ex in chord_dataset.take(5):
   print(ex)
   print('{} -> {}'.format(ex.numpy(), chord_array[ex.numpy()]))
 
-seq_length = 10
+seq_length = 16
 chunk_size = seq_length+1
 chord_chunks = chord_dataset.batch(chunk_size, drop_remainder=True)
 
@@ -128,6 +128,7 @@ def predict(model, starting_str, len_generated_text=19, max_input_length=3, scal
     encoded_input = encoded_input[:,-max_input_length:]
   return generated_chord
 
+"""
 tf.random.set_seed(1)
 
 starting_str=['C', 'F'] #ここを色々変える
@@ -141,3 +142,5 @@ for max_input_length in range(3):
                  max_input_length=max_input_length+2,
                  scale_factor = scale_factor*0.5))
     print()
+
+  """
