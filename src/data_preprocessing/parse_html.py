@@ -25,6 +25,7 @@ def get_key_info(soup):
     # examine if key info is contained in html
     for i in info:
         if 'Original' in i.text:
+            #print('target',i.text[-1])
             song_info = i.text
     # if key is not found, return None to skip this song
     if song_info is None:
@@ -38,6 +39,37 @@ def get_key_info(soup):
 
     return original_key_str
 
+def get_play_info(soup):
+    """
+    get play info
+    input soup
+    output str or None
+    """
+    info = soup.find_all('font', size='3')
+    play_info = None
+    notes = {'A', 'B', 'C', 'D', 'E', 'F', 'G'}
+
+    for i in info:
+        if 'Play' in i.text:
+            play_info = i.text[-1]
+            print(play_info)
+
+    if play_info == '♭' or play_info == '#':
+        play_info =  i.text[-2:]
+    
+    if play_info == None or play_info[0] not in notes:
+        return None    
+
+    return play_info
+    
+    # get play info
+    try:
+        play_info = i.txt[-1]
+    except:
+        return None
+
+    return play_info
+
 
 
 def parse_html(html):
@@ -46,17 +78,25 @@ def parse_html(html):
         song_title= soup.find('title').text.split('/')[0] # get title
         original_key = get_key_info(soup)
         if original_key == None or 'm' in original_key: # skip song whose key is empty or minor
-            print(song_title + ' skipped')
+            #pythoprint(song_title + ' skipped')
             return
         original_key = original_key.replace('♭', 'b')
+        play_info = get_play_info(soup)
+        if play_info == None:
+            return
+        play_info = play_info.replace('♭', 'b')
+        #if '−' in play_info:
+         #   return
+        print('play_info:',play_info)
         chord_lst = soup.find_all('a', href=re.compile("^JavaScript:jump_1"))
-        extracted_chord_progression = {original_key:[]}
+        extracted_chord_progression = {play_info:[]}
         for c in chord_lst:
             # instantiation chord from chord str list
+
             try:
                 chord_str = re.search(CHORD_PATTERN, c.text).group()
                 chord_str = chord_str.replace('♭', 'b')
-                extracted_chord_progression[original_key].append(chord_str)
+                extracted_chord_progression[play_info].append(chord_str)
             except:
                 continue
         chord_progression = Chord_progression(extracted_chord_progression)
